@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: backend
-          image: safety-net-backend:v3
-          imagePullPolicy: Never
+          image: kadv19/safety-net-backend:v1
+          imagePullPolicy: Always
 
           ports:
             - containerPort: 5000
