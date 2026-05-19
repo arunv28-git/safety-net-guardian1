@@ -7,12 +7,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/arunv28-git/safety-net-guardian1.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'cd backend && docker build -t $IMAGE_NAME .'
