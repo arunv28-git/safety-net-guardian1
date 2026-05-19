@@ -13,22 +13,9 @@ pipeline {
             }
         }
 
-        stage('Load Image into Minikube') {
-            steps {
-                sh 'minikube image load $IMAGE_NAME'
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s/backend-deployment.yaml'
-                sh 'kubectl apply -f k8s/backend-service.yaml'
-            }
-        }
-
-        stage('Check Pods') {
-            steps {
-                sh 'kubectl get pods'
+                sh 'bash scripts/deploy.sh'
             }
         }
     }
