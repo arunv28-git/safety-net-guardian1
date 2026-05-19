@@ -13,9 +13,9 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Build Success') {
             steps {
-                sh 'bash scripts/deploy.sh'
+                echo 'Docker image built successfully.'
             }
         }
     }
