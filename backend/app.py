@@ -22,7 +22,7 @@ BUGGY_MODE = False
 def home():
     REQUEST_COUNT.inc()
 
-    if random.random() < 0.4:
+    if BUGGY_MODE and  random.random() < 0.4:
         ERROR_COUNT.inc()
 
         return jsonify({
@@ -32,7 +32,7 @@ def home():
 
     return jsonify({
         "status": "success",
-        "message": "Safety-Net Guardian Buggy Version Running"
+        "message": "Safety-Net Guardian Version 2 Running"
     })
 
 
