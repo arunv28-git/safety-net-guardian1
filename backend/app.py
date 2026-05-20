@@ -1,7 +1,8 @@
 from flask import Flask, jsonify
 from prometheus_client import Counter, generate_latest
-import random
+import random, time
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Counter
+import threading, urllib.request
 
 app = Flask(__name__)
 
@@ -35,6 +36,21 @@ def home():
         "message": "Safety-Net Guardian Version 2 Running"
     })
 
+
+def run_traffic_loop():
+    # This function runs in the background and sends 100 requests to itself
+    for _ in range(100):
+        try:
+            urllib.request.urlopen('http://localhost:5000/')
+            time.sleep(0.05) # Small delay
+        except:
+            pass
+
+@app.route("/generate-traffic")
+def trigger_traffic():
+    # Starts the traffic loop without freezing the browser page
+    threading.Thread(target=run_traffic_loop).start()
+    return "<h3>Traffic generation sequence initiated on Home Cluster! Check Grafana.</h3>"
 
 @app.route('/health')
 def health():
