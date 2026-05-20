@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from prometheus_client import Counter, generate_latest
 import random
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Counter
 
 app = Flask(__name__)
 
@@ -21,7 +22,7 @@ BUGGY_MODE = False
 def home():
     REQUEST_COUNT.inc()
 
-    if BUGGY_MODE and random.random() < 0.4:
+    if random.random() < 0.4:
         ERROR_COUNT.inc()
 
         return jsonify({
@@ -31,7 +32,7 @@ def home():
 
     return jsonify({
         "status": "success",
-        "message": "Safety-Net Guardian Version 2 Running"
+        "message": "Safety-Net Guardian Buggy Version Running"
     })
 
 
@@ -42,7 +43,7 @@ def health():
 
 @app.route('/metrics')
 def metrics():
-    return generate_latest(), 200
+    return generate_latest(), 200, {'Content-type': CONTENT_TYPE_LATEST}
 
 
 @app.route('/toggle-bug')
